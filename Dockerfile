@@ -1,6 +1,6 @@
 FROM caddy:builder-alpine AS builder
 
-LABEL org.opencontainers.image.source https://github.com/xianyu-one/derper
+LABEL org.opencontainers.image.source https://github.com/xianyu-one/caddy
 
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare && \
