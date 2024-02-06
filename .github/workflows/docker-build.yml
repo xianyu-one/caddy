@@ -40,7 +40,7 @@ jobs:
             mrxianyu/caddy:latest
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image with caddy-security
         uses: docker/build-push-action@v5
         with:
           context: with-sec
