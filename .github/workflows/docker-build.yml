@@ -33,12 +33,22 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: with-cf_DNS
           push: true
           platforms: linux/arm64,linux/amd64
           tags: |
             mrxianyu/caddy:latest
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: with-sec
+          push: true
+          platforms: linux/arm64,linux/amd64
+          tags: |
+            mrxianyu/caddy:aaa-latest
+            mrxianyu/caddy:${{ steps.get-version.outputs.version }}-aaa
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
