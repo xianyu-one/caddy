@@ -13,7 +13,7 @@
 
 ## 使用方法
 
-与官方容器使用方法一致
+与官方容器使用方法一致，但注意caddyfile挂载位置从 `/etc/caddy/Caddyfile` 变更为 `/srv/Caddyfile`
 
 下面是一个`docker-compose`示例
 
@@ -31,7 +31,7 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./Caddyfile:/srv/Caddyfile:ro
       - ./data:/data
       - ./pages:/usr/share/caddy/pages:ro
     networks:
