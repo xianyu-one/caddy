@@ -47,7 +47,7 @@ jobs:
           push: true
           platforms: linux/arm64,linux/amd64
           tags: |
-            mrxianyu/caddy:aaa-latest
+            mrxianyu/caddy:latest-aaa
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}-aaa
 
       - name: Docker Hub Description

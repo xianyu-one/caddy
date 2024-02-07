@@ -2,6 +2,15 @@
 
 包含cloudflare插件的caddy2构建
 
+## Tag介绍
+
+| TAG | 介绍 |
+| --- | --- |
+| latest | 指向最新版本 |
+| vx.x.x | 与官方版本号一致 |
+| latest-aaa | 指向最新版本（含caddy-security插件） |
+| vx.x.x-aaa | 与官方版本号一致（含caddy-security插件） |
+
 ## 使用方法
 
 与官方容器使用方法一致
