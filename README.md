@@ -1,8 +1,14 @@
 # caddy
 
-包含cloudflare插件的caddy2构建
+包含客制化插件的Caddy容器化构建，基础镜像使用[distroless](https://github.com/GoogleContainerTools/distroless)
 
 ## Tag介绍
+
+各镜像均包含下列插件：
+- github.com/caddy-dns/cloudflare
+- github.com/RussellLuo/caddy-ext/ratelimit
+
+其他信息请参照下表
 
 | TAG | 介绍 |
 | --- | --- |
@@ -22,9 +28,6 @@ version: '3'
 services:
   app:
     image: 'mrxianyu/caddy:latest'
-    build:
-      context: ./
-      dockerfile: Dockerfile
     restart: unless-stopped
     container_name: caddy
     ports:

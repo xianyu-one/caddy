@@ -3,6 +3,7 @@ FROM caddy:builder-alpine AS builder
 LABEL org.opencontainers.image.source https://github.com/xianyu-one/caddy
 
 RUN xcaddy build \
+    --with github.com/RussellLuo/caddy-ext/ratelimit \
     --with github.com/caddy-dns/cloudflare && \
     apk update && \
     apk add upx wget && \
