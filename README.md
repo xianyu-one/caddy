@@ -6,7 +6,6 @@
 
 各镜像均包含下列插件：
 - github.com/caddy-dns/cloudflare
-- github.com/RussellLuo/caddy-ext/ratelimit
 
 其他信息请参照下表
 
