@@ -15,6 +15,8 @@
 | vx.x.x | 与官方版本号一致 |
 | latest-aaa | 指向最新版本（含caddy-security插件） |
 | vx.x.x-aaa | 与官方版本号一致（含caddy-security插件） |
+| latest-waf | 指向最新版本（含coraza-caddy插件） |
+| vx.x.x-waf | 与官方版本号一致（含coraza-caddy插件） |
 
 ## 使用方法
 
