@@ -19,7 +19,7 @@ RUN wget -O /srv/Caddyfile https://raw.githubusercontent.com/caddyserver/dist/ma
     cp /coreruleset/crs-setup.conf.example /srv/coraza/conf-recommended && \
     cp -r /coreruleset/rules /srv/coraza/
 
-FROM gcr.io/distroless/base-debian12:latest
+FROM scratch
 
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data

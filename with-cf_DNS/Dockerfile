@@ -13,7 +13,7 @@ WORKDIR /srv
 RUN wget -O /srv/Caddyfile https://raw.githubusercontent.com/caddyserver/dist/master/config/Caddyfile && \
     cp /usr/bin/caddy /srv/caddy
 
-FROM gcr.io/distroless/base-debian12:latest
+FROM scratch
 
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data

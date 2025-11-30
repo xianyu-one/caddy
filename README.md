@@ -1,6 +1,6 @@
 # caddy
 
-包含客制化插件的Caddy容器化构建，基础镜像使用[distroless](https://github.com/GoogleContainerTools/distroless)
+包含客制化插件的Caddy容器化构建，基础镜像使用scratch
 
 ## Tag介绍
 
