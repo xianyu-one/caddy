@@ -6,15 +6,19 @@ on:
       - main
   schedule:
     - cron: "0 0 1 * *"
+  # 允许在 Action 页面手动点击运行，方便测试
+  workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    #runs-on: self-hosted
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -31,41 +35,62 @@ jobs:
           TAG=$(curl -s https://api.github.com/repos/caddyserver/caddy/releases/latest | jq -r .tag_name)
           echo "version=${TAG}" >> $GITHUB_OUTPUT
 
+      # -------------------------------------------------------------------------
+      # 构建 1: Standard Version (DNS)
+      # -------------------------------------------------------------------------
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: with-cf_DNS
+          file: with-cf_DNS/Dockerfile
           push: true
           platforms: linux/arm64,linux/amd64
+          # 【核心优化】开启 GHA 缓存
+          # 这将缓存 Go 的模块下载和编译层，显著加快二次构建速度
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             mrxianyu/caddy:latest
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}
 
+      # -------------------------------------------------------------------------
+      # 构建 2: Security Version
+      # -------------------------------------------------------------------------
       - name: Build and push Docker image with caddy-security
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: with-sec
+          file: with-sec/Dockerfile
           push: true
           platforms: linux/arm64,linux/amd64
+          # 独立的 Scope 缓存，避免不同镜像间的缓存冲突
+          cache-from: type=gha,scope=security
+          cache-to: type=gha,mode=max,scope=security
           tags: |
             mrxianyu/caddy:latest-aaa
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}-aaa
 
+      # -------------------------------------------------------------------------
+      # 构建 3: WAF Version (编译最耗时，缓存效果最好)
+      # -------------------------------------------------------------------------
       - name: Build and push Docker image with coraza-caddy
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: with-cf_DNS-waf
+          file: with-cf_DNS-waf/Dockerfile
           push: true
           platforms: linux/arm64,linux/amd64
+          cache-from: type=gha,scope=waf
+          cache-to: type=gha,mode=max,scope=waf
           tags: |
             mrxianyu/caddy:latest-waf
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}-waf
 
       - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: mrxianyu/caddy
-          readme-filepath: ./README.md
+          readme-filepath: README.md
           short-description: ${{ github.event.repository.description }}

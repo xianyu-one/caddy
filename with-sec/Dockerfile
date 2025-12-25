@@ -1,11 +1,15 @@
-FROM caddy:builder-alpine AS builder
+FROM --platform=$BUILDPLATFORM caddy:builder-alpine AS builder
+
+ARG TARGETOS
+ARG TARGETARCH
 
 LABEL org.opencontainers.image.source https://github.com/xianyu-one/caddy
 
-RUN xcaddy build \
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH xcaddy build \
     --with github.com/caddy-dns/cloudflare \
-    --with github.com/xianyu-one/caddy-traffic-stats@v0.0.1 \
-    --with github.com/greenpau/caddy-security && \
+    --with github.com/xianyu-one/caddy-traffic-stats@v0.0.2 \
+    --with github.com/greenpau/caddy-security \
+    --output /usr/bin/caddy && \
     apk update && \
     apk add upx wget && \
     upx -9 /usr/bin/caddy
