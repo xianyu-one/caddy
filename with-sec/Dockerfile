@@ -4,6 +4,7 @@ LABEL org.opencontainers.image.source https://github.com/xianyu-one/caddy
 
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
+    --with github.com/xianyu-one/caddy-traffic-stats@v0.0.1 \
     --with github.com/greenpau/caddy-security && \
     apk update && \
     apk add upx wget && \

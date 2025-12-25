@@ -2,8 +2,11 @@ FROM caddy:builder-alpine AS builder
 
 LABEL org.opencontainers.image.source https://github.com/xianyu-one/caddy
 
+ENV GOPROXY=direct
+
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
+    --with github.com/xianyu-one/caddy-traffic-stats@v0.0.1 \
     --with github.com/corazawaf/coraza-caddy/v2 && \
     apk update && \
     apk add upx wget git && \
