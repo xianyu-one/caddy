@@ -70,22 +70,6 @@ jobs:
             mrxianyu/caddy:latest-aaa
             mrxianyu/caddy:${{ steps.get-version.outputs.version }}-aaa
 
-      # -------------------------------------------------------------------------
-      # 构建 3: WAF Version (编译最耗时，缓存效果最好)
-      # -------------------------------------------------------------------------
-      - name: Build and push Docker image with coraza-caddy
-        uses: docker/build-push-action@v6
-        with:
-          context: with-cf_DNS-waf
-          file: with-cf_DNS-waf/Dockerfile
-          push: true
-          platforms: linux/arm64,linux/amd64
-          cache-from: type=gha,scope=waf
-          cache-to: type=gha,mode=max,scope=waf
-          tags: |
-            mrxianyu/caddy:latest-waf
-            mrxianyu/caddy:${{ steps.get-version.outputs.version }}-waf
-
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
