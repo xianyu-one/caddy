@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.source https://github.com/xianyu-one/caddy
 
 RUN GOOS=$TARGETOS GOARCH=$TARGETARCH xcaddy build \
     --with github.com/caddy-dns/cloudflare \
-    --with github.com/xianyu-one/caddy-traffic-stats@v0.0.2 \
+    --with github.com/xianyu-one/caddy-traffic-stats@v0.0.3 \
     --with github.com/greenpau/caddy-security \
     --output /usr/bin/caddy && \
     apk update && \
